@@ -2,7 +2,7 @@
     "name": "mimium-language",
     "displayName": "mimium-language",
     "description": "language support for mimium, a sound programming language",
-    "publisher": "Tomoya Matsuura",
+    "publisher": "mimium-org",
     "version": "0.0.1",
     "engines": {
         "vscode": "^1.40.0"
