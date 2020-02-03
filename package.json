@@ -1,42 +1,47 @@
 {
-    "name": "mimium-language",
-    "displayName": "mimium-language",
-    "description": "language support for mimium, a sound programming language",
-    "publisher": "mimium-org",
-    "version": "0.0.1",
-    "engines": {
-        "vscode": "^1.40.0"
-    },
-    "categories": [
-        "Programming Languages"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/mimium-org/mimium-language.git"
-    },
-    "contributes": {
-        "languages": [
-            {
-                "id": "mimium",
-                "aliases": [
-                    "mimium",
-                    "mimium"
-                ],
-                "extensions": [
-                    ".mmm"
-                ],
-                "configuration": "./language-configuration.json"
-            }
-        ],
-        "grammars": [
-            {
-                "language": "mimium",
-                "scopeName": "source.mimium",
-                "path": "./syntaxes/mimium.tmLanguage.json"
-            }
-        ]
-    },
-    "devDependencies": {
-        "js-yaml": "^3.13.1"
-    }
+	"name": "mimium-language",
+	"displayName": "mimium-language",
+	"description": "language support for mimium, a sound programming language",
+	"publisher": "mimium-org",
+	"version": "1.0.0",
+	"engines": {
+		"vscode": "^1.40.0"
+	},
+	"categories": [
+		"Programming Languages"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mimium-org/mimium-language.git"
+	},
+	"contributes": {
+		"languages": [
+			{
+				"id": "mimium",
+				"aliases": [
+					"mimium",
+					"mimium"
+				],
+				"extensions": [
+					".mmm"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "mimium",
+				"scopeName": "source.mimium",
+				"path": "./syntaxes/mimium.tmLanguage.json"
+			}
+		]
+	},
+	"devDependencies": {
+		"js-yaml": "^3.13.1"
+	},
+	"__metadata": {
+		"id": "6123f9f9-7fd6-44ce-b65b-68a32b590015",
+		"publisherDisplayName": "mimium-org",
+		"publisherId": "cb37f4b9-a68d-4888-8b0a-8d2e05f36fc6"
+	}
 }
