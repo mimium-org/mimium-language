@@ -1,0 +1,315 @@
+{
+	"information_for_contributors": [
+		"This file is basically a subset of mimium."
+	],
+	"name": "mimium",
+	"patterns": [
+		{
+			"include": "#block_doc_comment"
+		},
+		{
+			"include": "#block_comment"
+		},
+		{
+			"include": "#line_doc_comment"
+		},
+		{
+			"include": "#line_comment"
+		},
+		{
+			"comment": "Single-quote string literal (character)",
+			"match": "b?'([^'\\\\]|\\\\(x[0-9A-Fa-f]{2}|[0-2][0-7]{0,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.))'",
+			"name": "string.quoted.single.mimium"
+		},
+		{
+			"include": "#string_literal"
+		},
+		{
+			"include": "#raw_string_literal"
+		},		{
+			"include": "#now"
+		},
+		{
+			"include": "#self"
+		},
+		{
+			"comment": "Floating point literal (fraction)",
+			"match": "\\b[0-9][0-9_]*\\.[0-9][0-9_]*([eE][+-]?[0-9_]+)?(f32|f64)?\\b",
+			"name": "constant.numeric.float.mimium"
+		},
+		{
+			"comment": "Floating point literal (exponent)",
+			"match": "\\b[0-9][0-9_]*(\\.[0-9][0-9_]*)?[eE][+-]?[0-9_]+(f32|f64)?\\b",
+			"name": "constant.numeric.float.mimium"
+		},
+
+		{
+			"comment": "Floating point literal (typed)",
+			"match": "\\b[0-9][0-9_]*(\\.[0-9][0-9_]*)?([eE][+-]?[0-9_]+)?(f32|f64)\\b",
+			"name": "constant.numeric.float.mimium"
+		},
+		{
+			"comment": "Integer literal (decimal)",
+			"match": "\\b[0-9][0-9_]*([ui](8|16|32|64|128|s|size))?\\b",
+			"name": "constant.numeric.integer.decimal.mimium"
+		},
+		{
+			"comment": "Integer literal (hexadecimal)",
+			"match": "\\b0x[a-fA-F0-9_]+([ui](8|16|32|64|128|s|size))?\\b",
+			"name": "constant.numeric.integer.hexadecimal.mimium"
+		},
+		{
+			"comment": "Integer literal (octal)",
+			"match": "\\b0o[0-7_]+([ui](8|16|32|64|128|s|size))?\\b",
+			"name": "constant.numeric.integer.octal.mimium"
+		},
+		{
+			"comment": "Integer literal (binary)",
+			"match": "\\b0b[01_]+([ui](8|16|32|64|128|s|size))?\\b",
+			"name": "constant.numeric.integer.binary.mimium"
+		},
+		{
+			"comment": "Boolean constant",
+			"match": "\\b(true|false)\\b",
+			"name": "constant.language.boolean.mimium"
+		},
+		{
+			"comment": "Control keyword",
+			"match": "\\b(break|continue|else|if|in|for|loop|match|return|try|while)\\b",
+			"name": "keyword.control.mimium"
+		},
+		{
+			"include": "#const"
+		},
+		{
+			"comment": "Miscellaneous operator",
+			"match": "(:|\\|>)",
+			"name": "keyword.operator.misc.mimium"
+		},
+		{
+			"comment": "Comparison operator",
+			"match": "(&&|\\|\\||==|!=)",
+			"name": "keyword.operator.comparison.mimium"
+		},
+		{
+			"comment": "Assignment operator",
+			"match": "(\\+=|-=|/=|\\*=|%=|\\^=|&=|\\|=|<<=|>>=|=)",
+			"name": "keyword.operator.assignment.mimium"
+		},
+		{
+			"comment": "Arithmetic operator",
+			"match": "(!|\\+|-|/|\\*|%|\\^|&|\\||<<|>>)",
+			"name": "keyword.operator.arithmetic.mimium"
+		},
+		{
+			"comment": "Comparison operator (second group because of regex precedence)",
+			"match": "(<=|>=|<|>)",
+			"name": "keyword.operator.comparison.mimium"
+		},
+		{
+			"coment": "Atmark",
+			"match": "(@)",
+			"name": "constant.language.atmark.mimium"
+		},
+		{
+			"include": "#core_types"
+		},
+		{
+			"include": "#core_vars"
+		},
+		{
+			"include": "#core_marker"
+		},
+		{
+			"captures": {
+				"1": {
+					"name": "entity.name.function.mimium"
+				}
+			},
+			"comment": "Function call",
+			"match": "\\b([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9_]+)\\s*\\("
+		},
+		{
+			"begin": "\\b(fn)\\s+([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9_]+)",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.fn.mimium"
+				},
+				"2": {
+					"name": "entity.name.function.mimium"
+				}
+			},
+			"comment": "Function definition",
+			"end": "[\\{;]",
+			"patterns": [
+				{
+					"include": "#block_comment"
+				},
+				{
+					"include": "#line_comment"
+				},
+				{
+					"include": "#core_types"
+				},
+				{
+					"include": "#core_marker"
+				},
+				{
+					"include": "#type_params"
+				},
+				{
+					"comment": "Function arguments",
+					"match": "\bfn\b",
+					"name": "keyword.other.fn.mimium"
+				}
+			]
+		},
+		{
+			"begin": "\\b(type)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.mimium"
+				},
+				"2": {
+					"name": "entity.name.type.mimium"
+				}
+			},
+			"comment": "Type alias",
+			"end": ";",
+			"patterns": [
+				{
+					"include": "#block_comment"
+				},
+				{
+					"include": "#line_comment"
+				},
+				{
+					"include": "#core_types"
+				},
+				{
+					"include": "#core_marker"
+				},
+				{
+					"include": "#type_params"
+				}
+			]
+		}
+	],
+	"repository": {
+		"block_comment": {
+			"begin": "/\\*",
+			"comment": "Block comment",
+			"end": "\\*/",
+			"name": "comment.block.mimium",
+			"patterns": [
+				{
+					"include": "#block_doc_comment"
+				},
+				{
+					"include": "#block_comment"
+				}
+			]
+		},
+		"block_doc_comment": {
+			"begin": "/\\*[\\*!](?![\\*/])",
+			"comment": "Block documentation comment",
+			"end": "\\*/",
+			"name": "comment.block.documentation.mimium",
+			"patterns": [
+				{
+					"include": "#block_doc_comment"
+				},
+				{
+					"include": "#block_comment"
+				}
+			]
+		},
+		"box": {
+			"comment": "Box storage modifier",
+			"match": "\\bbox\\b",
+			"name": "storage.modifier.box.mimium"
+		},
+		"const": {
+			"comment": "Const storage modifier",
+			"match": "\\bconst\\b",
+			"name": "storage.modifier.const.mimium"
+		},
+		"core_types": {
+			"comment": "Built-in/core type",
+			"match": "\\b(bool|float|int|string|void)\\b",
+			"name": "storage.type.core.mimium"
+		},
+		"escaped_character": {
+			"match": "\\\\(x[0-9A-Fa-f]{2}|[0-2][0-7]{0,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.)",
+			"name": "constant.character.escape.mimium"
+		},
+		"line_comment": {
+			"begin": "//",
+			"comment": "Single-line comment",
+			"end": "$",
+			"name": "comment.line.double-slash.mimium"
+		},
+		"line_doc_comment": {
+			"begin": "//[!/](?=[^/])",
+			"comment": "Single-line documentation comment",
+			"end": "$",
+			"name": "comment.line.documentation.mimium"
+		},
+		"raw_string_literal": {
+			"begin": "b?r(#*)\"",
+			"comment": "Raw double-quote string literal",
+			"end": "\"\\1",
+			"name": "string.quoted.double.raw.mimium"
+		},
+		"self": {
+			"comment": "Self variable",
+			"match": "\\bself\\b",
+			"name": "variable.language.mimium"
+		},
+		"now": {
+			"comment": "Now variable",
+			"match": "\\bnow\\b",
+			"name": "variable.language.mimium"
+		},
+		"string_literal": {
+			"begin": "b?\"",
+			"comment": "Double-quote string literal",
+			"end": "\"",
+			"name": "string.quoted.double.mimium",
+			"patterns": [
+				{
+					"include": "#escaped_character"
+				}
+			]
+		},
+		"type": {
+			"comment": "A type",
+			"match": "\\b([A-Za-z][_A-Za-z0-9]*|_[_A-Za-z0-9]+)\\b",
+			"name": "entity.name.type.mimium"
+		},
+		"type_params": {
+			"begin": "<(?![=<])",
+			"comment": "Type parameters",
+			"end": "(?<![-])>",
+			"name": "meta.type_params.mimium",
+			"patterns": [
+				{
+					"include": "#block_comment"
+				},
+				{
+					"include": "#line_comment"
+				},
+				{
+					"include": "#core_types"
+				},
+				{
+					"include": "#core_marker"
+				},
+				{
+					"include": "#type_params"
+				}
+			]
+		}
+	},
+	"scopeName": "source.mimium"
+}

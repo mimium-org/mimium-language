@@ -1,0 +1,42 @@
+{
+    "name": "mimium-language",
+    "displayName": "mimium-language",
+    "description": "language support for mimium, a sound programming language",
+    "publisher": "Tomoya Matsuura",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.40.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mimium-org/mimium-language.git"
+    },
+    "contributes": {
+        "languages": [
+            {
+                "id": "mimium",
+                "aliases": [
+                    "mimium",
+                    "mimium"
+                ],
+                "extensions": [
+                    ".mmm"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "mimium",
+                "scopeName": "source.mimium",
+                "path": "./syntaxes/mimium.tmLanguage.json"
+            }
+        ]
+    },
+    "devDependencies": {
+        "js-yaml": "^3.13.1"
+    }
+}
