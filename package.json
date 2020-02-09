@@ -10,10 +10,15 @@
 	"categories": [
 		"Programming Languages"
 	],
+	"icon":"mimium_0.5.png",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/mimium-org/mimium-language.git"
 	},
+	"galleryBanner": {
+		"color": "#333333",
+		"theme": "dark"
+	  },
 	"contributes": {
 		"languages": [
 			{
