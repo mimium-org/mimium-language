@@ -40,7 +40,7 @@ class Version implements Comparable<Version> {
     */
     constructor(vstring: string) {
       this.text = vstring;
-      const startwithV = vstring.charAt(0) === 'v';
+      const startwithV = vstring.length>4 && vstring[0] === 'v';
       const vnumbers = vstring.substr(1).split('.').map(
           (s: string) => parseInt(s));
       if (!startwithV || vnumbers.length != 3) {
@@ -75,9 +75,9 @@ class Version implements Comparable<Version> {
 export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
       vscode.commands.registerCommand('extension.mimiumdownloadbinary',
-          () => downloadBinary));
+          downloadBinary));
   context.subscriptions.push(
-      vscode.commands.registerCommand('extension.mimiumrun', () => runMimium));
+      vscode.commands.registerCommand('extension.mimiumrun', runMimium));
   checkIfNewerVersionAvailable();
 }
 
@@ -94,18 +94,22 @@ const getLatestVersionOfMimium = async (): Promise<Version> => {
   return parseVersion(mimiumVersion);
 };
 
-const getCurrentVersionOfMimium = (): Version => {
+const getCurrentVersionOfMimium = (): Version|null => {
   const cp = spawnSync('mimium', ['--version']);
-  return parseVersion(cp.output[0]);
+  if (cp.status!=0) {
+    return null;
+  }
+  return parseVersion(`v${<string>cp.stdout}`);
 };
 const checkIfNewerVersionAvailable = async () => {
-  const latest = getLatestVersionOfMimium();
+  const latest = await getLatestVersionOfMimium();
   const current = getCurrentVersionOfMimium();
-  const res = await latest.then((latestv: Version) => latestv.isNewer(current));
-  if (res) {
+  const shouldGet:boolean = (current===null) ? true : latest.isNewer(current);
+  if (shouldGet) {
+    const currentvtext = (current===null) ? '' :`${current.text} => `;
     vscode.window.showInformationMessage(
         `Newer version of mimium is available.\
-        (${current.text} => ${(await latest).text})`,
+        (${currentvtext}${latest.text})`,
         {modal: false},
         {title: 'Download'},
         {title: 'Not now', isCloseAffordance: true},
@@ -167,9 +171,13 @@ const runMimium = (): void => {
         `mimium: can\'t find mimium executable.\
         Set extempore.sharedir in the VSCode settings.`);
   }
-  _terminal = vscode.window.createTerminal('mimium');
+  const shelloption:vscode.TerminalOptions = {
+    name: 'mimium',
+    cwd: path.dirname(editor.document.fileName),
+  };
+  _terminal = vscode.window.createTerminal(shelloption);
   _terminal.show(true); // show, but don't steal focus
-  _terminal.sendText(`exec_command ${filepath}`);
+  _terminal.sendText(`${execCommand} ${filepath}`);
 };
 const getDefaultDownloadPath = ():string => {
   switch (platform()) {
@@ -233,7 +241,7 @@ const downloadBinary = async () => {
             (fileUris === undefined) ? '' : fileUris[0].fsPath,
   );
 
-  const sharedir: string = path.join(downloadDir, 'mimium');
+  const sharedir: string = path.join(downloadDir, releaseFile);
   if (fs.existsSync(sharedir)) {
     vscode.window.showErrorMessage(`mimium: sorry,\
     ${sharedir} already exists.`);
