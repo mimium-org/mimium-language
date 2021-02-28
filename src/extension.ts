@@ -95,7 +95,7 @@ const getLatestVersionOfMimium = async (): Promise<Version> => {
 };
 
 const getCurrentVersionOfMimium = (): Version|null => {
-  const cp = spawnSync('mimium', ['--version']);
+  const cp = spawnSync(getExecutableCommand(getMimiumPath()), ['--version']);
   if (cp.status!=0) {
     return null;
   }
