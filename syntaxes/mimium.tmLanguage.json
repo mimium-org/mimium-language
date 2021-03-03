@@ -175,7 +175,7 @@
 				}
 			},
 			"comment": "Type alias",
-			"end": ";",
+			"end": "$",
 			"patterns": [
 				{
 					"include": "#block_comment"
