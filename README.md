@@ -13,19 +13,15 @@ This is a language support extension of [mimium](https://github.com/tomoyanonymo
 
 ## Known Issues
 
+## For Developers
+
+To test this extension, install `vscode-test` command.
+
+https://code.visualstudio.com/api/working-with-extensions/testing-extension
 
 ## Release Notes
 
-### 1.1.0(2020-02-06)
-
-Added new features:
-
- - downloading latest binary
- - executing currently opening .mmm file
- 
-### 1.0.0(2020-02-03)
-
-Initial release
+[Change Log](./CHANGELOG)
 
 ## License
 

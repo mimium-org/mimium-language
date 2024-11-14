@@ -29,7 +29,7 @@
 		"lint": "eslint . --ext .ts,.tsx",
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile",
-		"test": "node ./dist/test/runTest.js"
+		"test": "vscode-test"
 	},
 	"test": {},
 	"contributes": {
@@ -98,6 +98,8 @@
 		"@types/vscode": "^1.53.0",
 		"@typescript-eslint/eslint-plugin": "^4.14.2",
 		"@typescript-eslint/parser": "^4.14.2",
+		"@vscode/test-cli": "^0.0.10",
+		"@vscode/test-electron": "^2.4.1",
 		"eslint": "^7.19.0",
 		"eslint-config-google": "^0.14.0",
 		"js-yaml": "^3.13.1",

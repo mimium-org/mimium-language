@@ -1,6 +1,6 @@
 {
 	"information_for_contributors": [
-		"This file is basically a subset of mimium."
+		"This file is based on rust's tmLanguage.json. So it may contain unused patterns."
 	],
 	"name": "mimium",
 	"patterns": [
@@ -26,7 +26,8 @@
 		},
 		{
 			"include": "#raw_string_literal"
-		},		{
+		},
+		{
 			"include": "#now"
 		},
 		{
@@ -42,7 +43,6 @@
 			"match": "\\b[0-9][0-9_]*(\\.[0-9][0-9_]*)?[eE][+-]?[0-9_]+(f32|f64)?\\b",
 			"name": "constant.numeric.float.mimium"
 		},
-
 		{
 			"comment": "Floating point literal (typed)",
 			"match": "\\b[0-9][0-9_]*(\\.[0-9][0-9_]*)?([eE][+-]?[0-9_]+)?(f32|f64)\\b",
@@ -75,11 +75,16 @@
 		},
 		{
 			"comment": "Control keyword",
-			"match": "\\b(break|continue|else|if|in|for|loop|match|return|try|while)\\b",
+			"match": "\\b(else|if)\\b",
 			"name": "keyword.control.mimium"
 		},
 		{
 			"include": "#const"
+		},
+		{
+			"comment": "storage keywords",
+			"match": "\\b(let|letrec)\\b",
+			"name": "keyword.other.mimium"
 		},
 		{
 			"comment": "Miscellaneous operator",
@@ -224,11 +229,6 @@
 				}
 			]
 		},
-		"box": {
-			"comment": "Box storage modifier",
-			"match": "\\bbox\\b",
-			"name": "storage.modifier.box.mimium"
-		},
 		"const": {
 			"comment": "Const storage modifier",
 			"match": "\\bconst\\b",
@@ -269,6 +269,11 @@
 		"now": {
 			"comment": "Now variable",
 			"match": "\\bnow\\b",
+			"name": "variable.language.mimium"
+		},
+		"samplerate": {
+			"comment": "Samplerate variable",
+			"match": "\\bsamplerate\\b",
 			"name": "variable.language.mimium"
 		},
 		"string_literal": {

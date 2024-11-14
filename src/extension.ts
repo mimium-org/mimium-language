@@ -40,18 +40,20 @@ class Version implements Comparable<Version> {
     */
     constructor(vstring: string) {
       this.text = vstring;
-      const startwithV = vstring.length>4 && vstring[0] === 'v';
-      const vnumbers = vstring.substr(1).split('.').map(
-          (s: string) => parseInt(s));
-      if (!startwithV || vnumbers.length != 3) {
+      const vnumbers = vstring.split('.');
+      if ( vnumbers.length != 3 ) {
         console.error('invalid version format');
         this.major = 0;
         this.minor = 0;
         this.patch = 0;
       }
-      this.major = vnumbers[0];
-      this.minor = vnumbers[1];
-      this.patch = vnumbers[2];
+      this.major = parseInt(vnumbers[0]);
+      this.minor = parseInt(vnumbers[1]);
+      const patch_v = vnumbers[2].split("-");
+      if (patch_v.length > 1 ){
+        console.warn('semvar alpha is ignored');
+      }
+      this.patch = parseInt(patch_v[0]);
     }
     /**
      * @param {Version} base target version to compare.
@@ -81,7 +83,7 @@ export function activate(context: vscode.ExtensionContext): void {
   checkIfNewerVersionAvailable();
 }
 
-const parseVersion = (vstring: string): Version => {
+export const parseVersion = (vstring: string): Version => {
   return new Version(vstring);
 };
 
@@ -99,7 +101,9 @@ const getCurrentVersionOfMimium = (): Version|null => {
   if (cp.status!=0) {
     return null;
   }
-  return parseVersion(`v${<string>cp.stdout}`);
+  //mimium-cli returns "mimium-cli v2.0.0-alpha1" as a result
+  const cp_v = cp.stdout.toString().split(" ")[1];
+  return parseVersion(`${cp_v}`);
 };
 const checkIfNewerVersionAvailable = async () => {
   const latest = await getLatestVersionOfMimium();

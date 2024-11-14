@@ -62,5 +62,5 @@
   },
   "include": [
     "src/**/*"
-  ]
+, "src/test/suite/extension.test.ts"  ]
 }
