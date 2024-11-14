@@ -22,6 +22,7 @@ Added new features:
 
  - downloading latest binary
  - executing currently opening .mmm file
+ 
 ### 1.0.0(2020-02-03)
 
 Initial release
