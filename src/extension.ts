@@ -89,7 +89,7 @@ export const parseVersion = (vstring: string): Version => {
 
 const getLatestVersionOfMimium = async (): Promise<Version> => {
   const tagData: any = await got(
-      'https://api.github.com/repos/mimium-org/mimium/releases/latest',
+      'https://api.github.com/repos/tomoyanonymous/mimium-rs/releases/latest',
       {responseType: 'json', resolveBodyOnly: true},
   );
   const mimiumVersion: string = tagData['tag_name'];
@@ -195,15 +195,14 @@ const getDefaultDownloadPath = ():string => {
       return '~/';
   }
 };
-const getDownloadfileName = (version:Version):string => {
-  const vtext = version.text;
+const getDownloadfileName = ():string => {
   switch (platform()) {
     case 'win32':
-      return `mimium-${vtext}-Windows`;
+      return `mimium-cli-x86_64-pc-windows-msvc.zip`;
     case 'darwin':
-      return `mimium-${vtext}-Darwin`;
+      return `mimium-cli-aarch64-apple-darwin.tar.xz`;
     case 'linux':
-      return `mimium-${vtext}-Linux`;
+      return `mimium-cli-x86_64-unknown-linux-gnu.tar.xz`;
     default:
       vscode.window.showErrorMessage(
           `mimium: binary download currently only \
@@ -222,15 +221,8 @@ const downloadBinary = async () => {
     return;
   }
 
-  if (await vscode.window.showWarningMessage(
-      `The mimium ${mimiumVersion} download is ~30MB\
-      , are you ok to download it?`, 'Ok', 'Cancel') != 'Ok') {
-    vscode.window.showErrorMessage('mimium: cancelled binary download');
-    return;
-  }
-
-  const releaseFile = getDownloadfileName(mimiumVersionRaw);
-  const ghReleaseUri: string = `https://github.com/mimium-org/mimium/releases/download/${mimiumVersion}/${releaseFile}.zip`;
+  const releaseFile = getDownloadfileName();
+  const ghReleaseUri: string = `https://github.com/tomoyanonymous/mimium-rs/releases/download/${mimiumVersion}/${releaseFile}`;
 
   const defaultDownloadDir = vscode.Uri.file(getDefaultDownloadPath());
   // where should we put it?
