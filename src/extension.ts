@@ -14,7 +14,7 @@ import got from "got";
 import decompress from "decompress";
 const decompressTar = require("decompress-tar");
 
-const getConfig = () => vscode.workspace.getConfiguration("mimium-language");
+const getConfig = () => vscode.workspace.getConfiguration("mimium");
 let _terminal: vscode.Terminal;
 
 /**
@@ -146,6 +146,7 @@ const checkIfNewerVersionAvailable = async () => {
 
 const getMimiumPath = (): string => {
   const config = getConfig();
+
   if (env["MIMIUM_PATH"]) {
     return env["MIMIUM_PATH"];
   } else if (config.has("sharedir")) {
@@ -268,6 +269,8 @@ const downloadBinary = async () => {
         const sharedir: string = path.join(defaultDownloadDir,releaseFile.split(".")[0]);
         const config = vscode.workspace.getConfiguration("mimium");
         config.update("sharedir", sharedir, true);
+        getExecutableCommand
+        config.update("executable_path",path.join(sharedir,"mimium-cli") ,true)
         vscode.window.showInformationMessage(
           `mimium: successfully downloaded \
                 ${mimiumVersion} to ${sharedir}.\n\

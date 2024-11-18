@@ -60,7 +60,7 @@
 				"mimium.sharedir": {
 					"required": false,
 					"type": "string",
-					"default": ".",
+					"default": "~/.mimium",
 					"description": "Location of the mimium share directory"
 				},
 				"mimium.checkupdate": {
