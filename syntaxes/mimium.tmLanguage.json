@@ -34,6 +34,9 @@
 			"include": "#self"
 		},
 		{
+			"include": "#samplerate"
+		},
+		{
 			"comment": "Floating point literal (fraction)",
 			"match": "\\b[0-9][0-9_]*\\.[0-9][0-9_]*([eE][+-]?[0-9_]+)?(f32|f64)?\\b",
 			"name": "constant.numeric.float.mimium"
