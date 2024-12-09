@@ -11,8 +11,6 @@ import * as path from "path";
 import { spawnSync, spawn } from "child_process";
 import download from "download";
 import got from "got";
-import decompress from "decompress";
-const decompressTar = require("decompress-tar");
 
 const getConfig = () => vscode.workspace.getConfiguration("mimium");
 let _terminal: vscode.Terminal;
