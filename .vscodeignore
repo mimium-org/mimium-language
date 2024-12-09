@@ -5,3 +5,4 @@ vsc-extension-quickstart.md
 node_modules
 esbuild.js
 src/
+out/

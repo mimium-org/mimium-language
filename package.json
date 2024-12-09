@@ -30,7 +30,8 @@
 		"watch": "npm-run-all -p watch:*",
 		"watch:esbuild": "node esbuild.js --watch",
 		"watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-		"pretest": "npm run compile",
+		"compile-tests": "tsc -p . --outDir out",
+		"pretest": "npm run compile-tests",
 		"test": "vscode-test",
 		"vscode:prepublish": "npm run package",
 		"package": "npm run check-types && node esbuild.js --production"
@@ -104,6 +105,7 @@
 		"@typescript-eslint/parser": "^4.14.2",
 		"@vscode/test-cli": "^0.0.10",
 		"@vscode/test-electron": "^2.4.1",
+		"electron": "^33.2.1",
 		"esbuild": "^0.24.0",
 		"eslint": "^7.19.0",
 		"eslint-config-google": "^0.14.0",
