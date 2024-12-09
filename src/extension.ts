@@ -41,20 +41,27 @@ class Version implements Comparable<Version> {
    */
   constructor(vstring: string) {
     this.text = vstring;
-    const vnumbers = vstring.split(".");
-    if (vnumbers.length != 3) {
+    const matchedv = vstring.match(/v?([0-9]+)\.([0-9]+)\.([0-9]+)(-.*)?/);
+    if (matchedv === null) {
       console.error("invalid version format");
       this.major = 0;
       this.minor = 0;
       this.patch = 0;
+      return this;
     }
-    this.major = parseInt(vnumbers[0]);
-    this.minor = parseInt(vnumbers[1]);
-    const patch_v = vnumbers[2].split("-");
-    if (patch_v.length > 1) {
-      console.warn("semvar alpha is ignored");
+    if (!(matchedv.length == 4 || matchedv.length == 5)) {
+      console.error("invalid version format");
+      this.major = 0;
+      this.minor = 0;
+      this.patch = 0;
+      return this;
     }
-    this.patch = parseInt(patch_v[0]);
+    this.major = parseInt(matchedv[1]);
+    this.minor = parseInt(matchedv[2]);
+    this.patch = parseInt(matchedv[3]);
+    if (matchedv[4]) {
+      console.warn("alpha version is ignored.");
+    }
   }
   /**
    * @param {Version} base target version to compare.
@@ -93,7 +100,7 @@ export const parseVersion = (vstring: string): Version => {
 };
 
 const getLatestVersionOfMimium = async (): Promise<Version> => {
-  const endpoint = `https://api.github.com/repos/tomoyanonymous/mimium-rs/releases`
+  const endpoint = `https://api.github.com/repos/tomoyanonymous/mimium-rs/releases`;
   // const endpoint = `https://api.github.com/repos/tomoyanonymous/mimium-rs/releases?client_id=${client_id}?client_secret=${client_secret}`;
 
   const tagData: [any] = await got(endpoint, {
@@ -214,9 +221,9 @@ const getDownloadfileName = (): string => {
     case "win32":
       return `mimium-cli-x86_64-pc-windows-msvc.zip`;
     case "darwin":
-      return `mimium-cli-aarch64-apple-darwin.tar.xz`;
+      return `mimium-cli-aarch64-apple-darwin.zip`;
     case "linux":
-      return `mimium-cli-x86_64-unknown-linux-gnu.tar.xz`;
+      return `mimium-cli-x86_64-unknown-linux-gnu.zip`;
     default:
       vscode.window.showErrorMessage(
         `mimium: binary download currently only \
@@ -225,10 +232,6 @@ const getDownloadfileName = (): string => {
       return "~/";
   }
 };
-const getUnarchiveCommand = (): string => {
-  return "tar -xf";
-};
-
 const downloadBinary = async () => {
   const mimiumVersionRaw = await getLatestVersionOfMimium();
   const mimiumVersion: string = mimiumVersionRaw.text;
@@ -262,15 +265,16 @@ const downloadBinary = async () => {
         const res = spawnSync("tar", ["-xf", releaseFile], {
           cwd: defaultDownloadDir,
         });
+
         if (res.error) {
           vscode.window.showErrorMessage(res.error.message);
         }
+        fs.rmSync(releaseFile, { force: true });
+        fs.chmodSync(path.join(defaultDownloadDir, "./mimium-cli"), 0o755);
         // fs.rmSync(localarchive);
-        const sharedir: string = path.join(defaultDownloadDir,releaseFile.split(".")[0]);
+        const sharedir: string = defaultDownloadDir;
         const config = vscode.workspace.getConfiguration("mimium");
         config.update("sharedir", sharedir, true);
-        getExecutableCommand
-        config.update("executable_path",path.join(sharedir,"mimium-cli") ,true)
         vscode.window.showInformationMessage(
           `mimium: successfully downloaded \
                 ${mimiumVersion} to ${sharedir}.\n\
@@ -287,7 +291,7 @@ const downloadBinary = async () => {
     )
     .catch((reason) => {
       vscode.window.showErrorMessage(
-        `mimium: error downloading binary "${reason}"`
+        `mimium: error installing binary "${reason}"`
       );
       return;
     });
