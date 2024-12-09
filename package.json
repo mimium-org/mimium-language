@@ -3,7 +3,7 @@
 	"displayName": "mimium",
 	"description": "language support for mimium, a sound programming language",
 	"publisher": "mimium-org",
-	"version": "2.2.0",
+	"version": "2.2.1",
 	"engines": {
 		"vscode": "^1.63.0"
 	},
@@ -24,12 +24,16 @@
 	],
 	"main": "./dist/extension.js",
 	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
+		"compile": "npm run check-types && node esbuild.js",
 		"lint": "eslint . --ext .ts,.tsx",
-		"watch": "tsc -watch -p ./",
+		"check-types": "tsc --noEmit",
+		"watch": "npm-run-all -p watch:*",
+		"watch:esbuild": "node esbuild.js --watch",
+		"watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
 		"pretest": "npm run compile",
-		"test": "vscode-test"
+		"test": "vscode-test",
+		"vscode:prepublish": "npm run package",
+		"package": "npm run check-types && node esbuild.js --production"
 	},
 	"test": {},
 	"contributes": {
