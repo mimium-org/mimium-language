@@ -108,14 +108,13 @@
 		}
 	},
 	"dependencies": {
-		"download": "^8.0.0",
-		"got": "^11.8.1"
+		"node-downloader-helper": "^2.1.9"
 	},
 	"devDependencies": {
-		"@types/download": "^6.2.4",
 		"@types/eslint": "^7.2.6",
 		"@types/glob": "^7.1.3",
 		"@types/mocha": "^8.2.0",
+		"@types/node-downloader-helper": "^1.0.2",
 		"@types/vscode": "^1.63.0",
 		"@typescript-eslint/eslint-plugin": "^4.14.2",
 		"@typescript-eslint/parser": "^4.14.2",
@@ -126,6 +125,7 @@
 		"eslint": "^7.19.0",
 		"eslint-config-google": "^0.14.0",
 		"js-yaml": "^3.13.1",
+		"npm-run-all": "^4.1.5",
 		"tslint": "^6.1.3",
 		"typescript": "^4.1.3",
 		"vscode-test": "^1.5.0",
