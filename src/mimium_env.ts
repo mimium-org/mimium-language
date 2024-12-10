@@ -64,7 +64,6 @@ export const runMimium = (terminal: vscode.Terminal): void => {
       .getConfiguration("terminal.external")
       .get("windowsExec");
   }
-  terminal.state.isInteractedWith;
   terminal = vscode.window.createTerminal(shelloption);
   terminal.show(true); // show, but don't steal focus
   terminal.sendText(`${execCommand} ${filepath}`);
