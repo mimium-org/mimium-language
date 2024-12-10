@@ -13,7 +13,7 @@
                 "request": "launch",
                 "runtimeExecutable": "${execPath}",
                 "args": [
-                    "--extensionDevelopmentPath=${workspaceFolder}"
+                    "--extensionDevelopmentPath=${workspaceRoot}"
                 ],
                 "preLaunchTask": "watch"
             }

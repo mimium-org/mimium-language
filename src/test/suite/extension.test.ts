@@ -1,4 +1,4 @@
-import { parseVersion, } from "../../extension";
+import { parseVersion } from "../../utils";
 import * as assert from "assert";
 
 suite("parse version string", () => {
