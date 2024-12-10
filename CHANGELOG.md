@@ -2,6 +2,23 @@
 
 All notable changes to the "mimium-language" extension will be documented in this file.
 
+## 2.2.3
+
+- Added an editor action button
+- Added file icons
+
+## 2.2.2
+
+- Bugfix for windows downloader
+
+## 2.2.1
+
+- Added esbuild setting to reduce distributed file size
+
+## 2.2.0
+
+- updated mimium to v2.2.0
+
 ## 2.0.1(2024-11-18)
 
 - fixed binary downloader
