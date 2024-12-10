@@ -268,7 +268,7 @@ const downloadBinary = async () => {
           vscode.window.showErrorMessage(res.error.message);
         }
         fs.rmSync(releaseFile, { force: true });
-        fs.chmodSync(path.join(defaultDownloadDir, "./mimium-cli"), 0o755);
+        fs.chmodSync(path.join(defaultDownloadDir, getExecutableCommand(".")), 0o755);
         // fs.rmSync(localarchive);
         const sharedir: string = defaultDownloadDir;
         const config = vscode.workspace.getConfiguration("mimium");
