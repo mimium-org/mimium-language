@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="293.97269"
+   viewBox="0 0 706.0048 233.72034"
+   version="1.1"
+   id="svg21"
+   sodipodi:docname="mimium_logo_slant.svg"
+   inkscape:export-filename="mimium_logo_stroke_light.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   height="233.72034"
+   inkscape:version="1.3 (0e150ed, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sodipodi:namedview
+     id="namedview21"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.76498846"
+     inkscape:cx="234.64406"
+     inkscape:cy="92.811858"
+     inkscape:window-width="1440"
+     inkscape:window-height="705"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="レイヤー_1-2" />
+  <defs
+     id="defs7">
+    <style
+       id="style1">.cls-1{fill:url(#名称未設定グラデーション_25);}.cls-2{fill:#fff;}.cls-2,.cls-3{stroke:#fff;stroke-miterlimit:10;stroke-width:0.1px;}.cls-3{fill:none;}</style>
+  </defs>
+  <title
+     id="title7">アセット 2</title>
+  <g
+     id="レイヤー_2"
+     data-name="レイヤー 2"
+     transform="translate(-10.984745,-8.5976837)">
+    <g
+       id="レイヤー_1-2"
+       data-name="レイヤー 1">
+      <polygon
+         class="cls-1"
+         points="352.6,572.93 0,286.47 367.87,0 720.48,286.47 "
+         id="polygon7"
+         style="fill:#c3c3c3;fill-opacity:0;stroke:#ffffff;stroke-width:10.0235;stroke-dasharray:none;stroke-opacity:1"
+         transform="matrix(0.95848924,0,0,0.95828451,18.700955,-153.45787)" />
+      <polygon
+         class="cls-2"
+         points="250.22,257.64 237.8,247.55 314.13,188.11 326.55,198.2 "
+         id="polygon8"
+         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:10.0235;stroke-dasharray:none;stroke-opacity:1"
+         transform="matrix(0.95848924,0,0,0.95828451,18.700955,-153.45787)" />
+      <path
+         id="path8"
+         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:9.60639;stroke-dasharray:none;stroke-opacity:1"
+         class="cls-2"
+         d="m 261.70509,-38.338789 c -6.61237,-0.144941 -13.25588,1.686667 -18.38379,5.519805 l -71.55696,55.741915 11.90068,9.659651 71.20628,-55.454238 c 3.38347,-2.606534 9.04818,-2.369885 12.64251,0.552883 3.59433,2.922758 3.7791,7.446896 0.39564,10.082178 l -71.21527,55.436261 11.89169,9.632687 71.15683,-55.418285 0.0225,0.018016 c 3.38347,-2.6352729 9.05658,-2.3923573 12.66049,0.5304104 3.60392,2.9227578 3.7881,7.4424008 0.40464,10.0776838 l -71.17929,55.4362628 11.91417,9.641674 72.33926,-56.335259 c 9.09605,-8.0304138 8.76949,-20.5448331 -1.00709,-28.489012 -4.81504,-3.912819 -11.07639,-6.00509 -17.41717,-6.297424 -0.23082,-5.051616 -2.74391,-10.077646 -7.56213,-13.992794 -5.01768,-4.077491 -11.60058,-6.197437 -18.21294,-6.342377 z" />
+      <polygon
+         class="cls-2"
+         points="354.45,342.32 342.03,332.23 418.36,272.79 430.78,282.88 "
+         id="polygon11"
+         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:10.0235;stroke-dasharray:none;stroke-opacity:1"
+         transform="matrix(0.95848924,0,0,0.95828451,18.700955,-153.45787)" />
+      <path
+         id="path12"
+         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:9.60639;stroke-dasharray:none;stroke-opacity:1"
+         class="cls-2"
+         d="m 361.56832,42.808599 c -6.61357,-0.146138 -13.25138,1.686677 -18.37929,5.519807 l -71.57045,55.732934 11.90517,9.63268 71.20628,-55.458734 c 3.39306,-2.616117 9.0386,-2.383963 12.64252,0.548378 3.60392,2.93235 3.7746,7.456488 0.39115,10.082188 l -71.17931,55.481208 11.90518,9.68213 71.13883,-55.512675 0.0675,0.05395 c 3.38347,-2.635282 9.07007,-2.383378 12.67399,0.53939 3.60391,2.922768 3.77461,7.442411 0.39114,10.077684 l -71.1793,55.440761 11.80177,9.60122 72.33475,-56.339754 c 9.13439,-8.039995 8.81895,-20.554424 -0.95763,-28.48901 -4.8185,-3.9119 -11.07667,-6.006499 -17.41716,-6.301928 -0.23803,-5.036418 -2.74475,-10.044327 -7.54864,-13.947831 -5.02249,-4.072712 -11.61287,-6.196251 -18.22644,-6.342389 z" />
+      <path
+         id="path16"
+         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:9.60639;stroke-dasharray:none;stroke-opacity:1"
+         class="cls-2"
+         d="m 511.40813,164.52296 c -6.61237,-0.14734 -13.25139,1.68217 -18.37929,5.5153 l -71.56146,55.74642 11.90518,9.65965 71.20627,-55.45873 c 3.38347,-2.60654 9.0386,-2.3654 12.64251,0.55736 3.60392,2.92277 3.77461,7.44691 0.39115,10.08219 l -71.17481,55.43625 11.90519,9.66865 71.13434,-55.46772 0.0404,0.0314 c 3.38347,-2.63528 9.07007,-2.39685 12.67398,0.52591 3.60392,2.92277 3.77461,7.4469 0.39115,10.08219 l -71.17931,55.43625 11.81976,9.64167 72.33925,-56.33974 c 9.14397,-8.03041 8.82404,-20.54484 -0.96213,-28.48901 -4.81581,-3.91345 -11.07535,-6.00563 -17.41716,-6.29744 -0.23236,-5.04724 -2.73767,-10.06656 -7.55763,-13.9793 -5.01769,-4.0775 -11.60508,-6.20403 -18.21745,-6.35136 z" />
+      <path
+         class="cls-2"
+         d="m 373.15028,213.23928 c -10.03538,-8.155 -10.11206,-21.08225 -0.25879,-29.11268 v 0 l 71.58956,-55.72424 11.90444,9.66909 -71.22534,55.43676 c -3.3643,2.63528 -3.1726,7.1488 0.42174,10.06198 3.59433,2.91319 9.27817,3.16234 12.66164,0.53664 l 71.20616,-55.41759 11.90444,9.66909 -72.36594,56.31838 v 0 c -10.33251,7.03381 -26.06132,6.55467 -35.83791,-1.43743 z"
+         id="path20"
+         style="fill:#000000;fill-opacity:0;stroke:#ffffff;stroke-width:9.60639;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         sodipodi:type="star"
+         style="display:none;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1.2595;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+         id="path27"
+         inkscape:flatsided="true"
+         sodipodi:sides="3"
+         sodipodi:cx="42.797771"
+         sodipodi:cy="304.72012"
+         sodipodi:r1="32.571323"
+         sodipodi:r2="16.285664"
+         sodipodi:arg1="0"
+         sodipodi:arg2="1.0471976"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="m 75.369095,304.72012 -48.856985,28.2076 0,-56.41519 z"
+         transform="matrix(4.5870864,0,0,4.5716797,-22.179876,-1158.1273)"
+         inkscape:transform-center-x="-37.351869"
+         inkscape:transform-center-y="2.7229717e-05" />
+    </g>
+  </g>
+  <metadata
+     id="metadata27">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>アセット 2</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

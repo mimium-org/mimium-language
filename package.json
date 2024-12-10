@@ -48,6 +48,10 @@
 				"extensions": [
 					".mmm"
 				],
+				"icon": {
+					"light": "mimium_logo_stroke_light.svg",
+					"dark": "mimium_logo_stroke_dark.svg"
+				},
 				"configuration": "./language-configuration.json"
 			}
 		],
@@ -83,7 +87,10 @@
 			{
 				"command": "extension.mimiumrun",
 				"title": "mimium: Run opening file",
-				"icon": "$(play)"
+				"icon": {
+					"light": "mimium_logo_stroke_light_play.svg",
+					"dark": "mimium_logo_stroke_dark_play.svg"
+				}
 			},
 			{
 				"command": "extension.mimiumhelp",

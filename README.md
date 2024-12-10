@@ -4,7 +4,7 @@ This is a language support extension of [mimium](https://github.com/tomoyanonymo
 
 - Syntax highlighting for mimium source files (which have `.mmm` extension)
 - Download the latest binary from Github Release
-- Run opening file from the command(Cmd+Shift+P => "Run opening file")
+- Run opening file from the editor action button or the command palette (Cmd+Shift+P => "Run opening file")
 
 ## Screenshot
 
