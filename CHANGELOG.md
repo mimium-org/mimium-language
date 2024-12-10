@@ -2,6 +2,10 @@
 
 All notable changes to the "mimium-language" extension will be documented in this file.
 
+## 2.2.5
+
+- Create temporary file for playing Untitled buffer.
+
 ## 2.2.4
 
 - Fixed path handling on Windows by fixing a terminal type to Command Prompt
