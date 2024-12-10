@@ -2,6 +2,7 @@
 import * as vscode from "vscode";
 import { env } from "process";
 import * as path from "path";
+import * as fs from "fs";
 import { platform } from "os";
 import { spawnSync } from "child_process";
 
@@ -39,16 +40,22 @@ export const getExecutableCommand = (mimiumPath: string): string => {
 const testMimiumExecutable = (executablePath: string): boolean => {
   return spawnSync(executablePath, ["--version"]).status === 0;
 };
-
+const makeTmpfile = (editor: vscode.TextEditor, mmmpath: string): string => {
+  const p = path.join(mmmpath, "./_vscode_tmp.mmm");
+  fs.writeFileSync(p, editor.document.getText());
+  return p;
+};
 export const runMimium = (terminal: vscode.Terminal): void => {
+  const mmmpath = getMimiumPath();
   const editor = vscode.window.activeTextEditor;
   if (editor === undefined) return;
-  const filepath = path.basename(editor.document.fileName);
-
+  const filepath = editor.document.isUntitled
+    ? makeTmpfile(editor, mmmpath)
+    : path.basename(editor.document.fileName);
   if (terminal) {
     terminal.dispose();
   }
-  const execCommand = getExecutableCommand(getMimiumPath());
+  const execCommand = getExecutableCommand(mmmpath);
   if (testMimiumExecutable(execCommand) === false) {
     vscode.window.showErrorMessage(
       `mimium: can\'t find mimium executable.\
