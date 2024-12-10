@@ -55,10 +55,16 @@ export const runMimium = (terminal: vscode.Terminal): void => {
           Set mimium.sharedir in the VSCode settings.`
     );
   }
-  const shelloption: vscode.TerminalOptions = {
+  let shelloption: vscode.TerminalOptions = {
     name: "mimium",
     cwd: path.dirname(editor.document.fileName),
   };
+  if (platform() === "win32") {
+    shelloption.shellPath = vscode.workspace
+      .getConfiguration("terminal.external")
+      .get("windowsExec");
+  }
+  terminal.state.isInteractedWith;
   terminal = vscode.window.createTerminal(shelloption);
   terminal.show(true); // show, but don't steal focus
   terminal.sendText(`${execCommand} ${filepath}`);
