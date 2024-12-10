@@ -89,7 +89,16 @@
 				"command": "extension.mimiumhelp",
 				"title": "mimium: Open an online documentation"
 			}
-		]
+		],
+		"menus": {
+			"editor/title": [
+				{
+					"command": "extension.mimiumrun",
+					"group": "navigation",
+					"when": "resourceLangId == mimium"
+				}
+			]
+		}
 	},
 	"dependencies": {
 		"download": "^8.0.0",
