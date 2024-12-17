@@ -2,6 +2,10 @@
 
 All notable changes to the "mimium-language" extension will be documented in this file.
 
+## 2.2.6
+
+- Improved download progress message UI when installing.
+
 ## 2.2.5
 
 - Create temporary file for playing Untitled buffer.
