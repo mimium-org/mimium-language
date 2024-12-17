@@ -2,6 +2,11 @@
 
 All notable changes to the "mimium-language" extension will be documented in this file.
 
+## 2.2.7
+
+- Fixed multiple terminals are kept open when executing from commands.
+- Added theme icon to terminal
+
 ## 2.2.6
 
 - Improved download progress message UI when installing.
