@@ -133,12 +133,34 @@ export const downloadBinary = async () => {
               also updating mimium.sharedir config setting`
     );
   });
+  let progress_diff = {
+    updated: false,
+    val: 0.0,
+  };
   downloader.on("progress", (stats) => {
-    vscode.window.setStatusBarMessage(
-      `mimium: download ${mimiumVersion} from ${ghReleaseUri} \
-            ${stats.progress.toFixed(1)}% complete`
+    progress_diff.val = stats.progress - progress_diff.val;
+    progress_diff.updated = true;
+  });
+  downloader.on("start", () => {
+    vscode.window.withProgress(
+      {
+        title: "mimium",
+        cancellable: true,
+        location: vscode.ProgressLocation.Notification,
+      },
+      async (progress, token) => {
+        let incr = progress_diff.updated ? progress_diff.val : 0.0;
+        progress.report({
+          message: "Downloading the latest version of mimium...",
+          increment: incr,
+        });
+        if (token.isCancellationRequested){
+          await downloader.stop()
+        }
+      }
     );
   });
+
   const error_handler = (e: ErrorStats) => {
     vscode.window.showErrorMessage(e.message);
   };
