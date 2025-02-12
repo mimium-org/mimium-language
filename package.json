@@ -121,7 +121,7 @@
 		"@vscode/test-cli": "^0.0.10",
 		"@vscode/test-electron": "^2.4.1",
 		"electron": "^33.2.1",
-		"esbuild": "^0.24.0",
+		"esbuild": "^0.25.0",
 		"eslint": "^7.19.0",
 		"eslint-config-google": "^0.14.0",
 		"js-yaml": "^3.13.1",
