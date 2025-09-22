@@ -1,0 +1,133 @@
+{
+  "name": "mimium-language",
+  "version": "3.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "vscode": "^1.63.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "icon": "mimium_0.5.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mimium-org/mimium-language.git"
+  },
+  "galleryBanner": {
+    "color": "#333333",
+    "theme": "dark"
+  },
+  "activationEvents": [
+    "onLanguage:mimium"
+  ],
+  "scripts": {
+    "postinstall": "cd client && pnpm i",
+    "compile": "npm run check-types && node esbuild.js --production",
+    "check-types": "tsc --noEmit",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "vsce package --no-dependencies"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "mimium",
+        "aliases": [
+          "mimium",
+          "Mimium"
+        ],
+        "extensions": [
+          ".mmm"
+        ],
+        "icon": {
+          "light": "mimium_logo_stroke_light.svg",
+          "dark": "mimium_logo_stroke_dark.svg"
+        },
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "mimium",
+        "scopeName": "source.mimium",
+        "path": "./syntaxes/mimium.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "mimium",
+      "properties": {
+        "mimium.sharedir": {
+          "required": false,
+          "type": "string",
+          "default": "~/.mimium",
+          "description": "Location of the mimium share directory"
+        },
+        "mimium.checkupdate": {
+          "type": "boolean",
+          "default": true,
+          "description": "Check if the latest version of mimium is available on startup"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "extension.mimiumdownloadbinary",
+        "title": "mimium: Download the latest binary"
+      },
+      {
+        "command": "extension.mimiumrun",
+        "title": "mimium: Run opening file",
+        "icon": {
+          "light": "mimium_logo_stroke_light_play.svg",
+          "dark": "mimium_logo_stroke_dark_play.svg"
+        }
+      },
+      {
+        "command": "extension.mimiumhelp",
+        "title": "mimium: Open an online documentation"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "extension.mimiumrun",
+          "group": "navigation",
+          "when": "resourceLangId == mimium"
+        }
+      ]
+    }
+  },
+  "keywords": [],
+  "author": "Tomoya Matsuura",
+  "license": "MIT",
+  "packageManager": "pnpm@10.17.0",
+  "devDependencies": {
+    "@types/eslint": "^7.29.0",
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^8.2.3",
+    "@types/node-downloader-helper": "^1.0.16",
+    "@types/vscode": "^1.104.0",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.5.2",
+    "electron": "^33.4.11",
+    "esbuild": "^0.24.2",
+    "eslint": "^7.32.0",
+    "eslint-config-google": "^0.14.0",
+    "js-yaml": "^3.14.1",
+    "npm-run-all": "^4.1.5",
+    "tslint": "^6.1.3",
+    "typescript": "^4.9.5",
+    "vscode-test": "^1.6.1",
+    "webpack": "^5.101.3"
+  },
+  "__metadata": {
+    "id": "6123f9f9-7fd6-44ce-b65b-68a32b590015",
+    "publisherId": "cb37f4b9-a68d-4888-8b0a-8d2e05f36fc6",
+    "publisherDisplayName": "mimium-org"
+  }
+}
