@@ -48,6 +48,7 @@ fn token_to_semantic_token(token: &Token, span: &Span) -> Option<ImCompleteSeman
         | Token::If
         | Token::Else
         | Token::SelfLit
+        | Token::Now
         | Token::SampleRate => get_token_id(&SemanticTokenType::KEYWORD),
         Token::Ident(_) => get_token_id(&SemanticTokenType::VARIABLE),
         Token::Float(_) | Token::Int(_) => get_token_id(&SemanticTokenType::NUMBER),
@@ -69,7 +70,6 @@ fn token_to_semantic_token(token: &Token, span: &Span) -> Option<ImCompleteSeman
         token_type,
     })
 }
-
 
 pub fn parse(src: &str, uri: &str) -> ParseResult {
     let (tokens, mut errs) = mimium_lang::compiler::parser::lex(src, Some(PathBuf::from(uri)));

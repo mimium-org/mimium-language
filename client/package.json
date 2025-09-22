@@ -4,8 +4,6 @@
 	"description": "language support for mimium, a sound programming language",
 	"publisher": "mimium-org",
 	"version": "2.2.7",
-
-	"main": "./dist/extension.js",
 	"scripts": {
 		"compile": "npm run check-types && node esbuild.js",
 		"lint": "eslint . --ext .ts,.tsx",
@@ -20,8 +18,8 @@
 		"package": "npm run check-types && node esbuild.js --production"
 	},
 	"test": {},
-	
 	"dependencies": {
-		"node-downloader-helper": "^2.1.9"
+		"node-downloader-helper": "^2.1.9",
+		"vscode-languageclient": "^9.0.1"
 	}
 }

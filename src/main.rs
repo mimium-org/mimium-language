@@ -1,7 +1,9 @@
 use dashmap::DashMap;
 use log::debug;
 use mimium_lang::interner::ExprNodeId;
-use mimium_language_server::semantic_token::{parse, ImCompleteSemanticToken, LEGEND_TYPE};
+use mimium_language_server::semantic_token::{
+    ImCompleteSemanticToken, LEGEND_TYPE, ParseResult, parse,
+};
 use ropey::Rope;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -26,24 +28,49 @@ impl LanguageServer for Backend {
         debug!("initialize: {:#?}", params);
         Ok(InitializeResult {
             capabilities: ServerCapabilities {
-                text_document_sync: Some(TextDocumentSyncCapability::Kind(
-                    TextDocumentSyncKind::FULL,
+                text_document_sync: Some(TextDocumentSyncCapability::Options(
+                    TextDocumentSyncOptions {
+                        open_close: Some(true),
+                        change: Some(TextDocumentSyncKind::FULL),
+                        save: Some(TextDocumentSyncSaveOptions::SaveOptions(SaveOptions {
+                            include_text: Some(true),
+                        })),
+                        ..Default::default()
+                    },
                 )),
                 semantic_tokens_provider: Some(
-                    SemanticTokensServerCapabilities::SemanticTokensOptions(
-                        SemanticTokensOptions {
-                            legend: SemanticTokensLegend {
-                                token_types: LEGEND_TYPE.to_vec(),
-                                token_modifiers: vec![],
+                    SemanticTokensServerCapabilities::SemanticTokensRegistrationOptions(
+                        SemanticTokensRegistrationOptions {
+                            text_document_registration_options: TextDocumentRegistrationOptions {
+                                document_selector: Some(vec![DocumentFilter {
+                                    language: Some("mimium".to_string()),
+                                    scheme: Some("file".to_string()),
+                                    pattern: None,
+                                }]),
                             },
-                            full: Some(SemanticTokensFullOptions::Bool(true)),
-                            range: None,
-                            work_done_progress_options: WorkDoneProgressOptions {
-                                work_done_progress: None,
+                            semantic_tokens_options: SemanticTokensOptions {
+                                legend: SemanticTokensLegend {
+                                    token_types: LEGEND_TYPE.to_vec(),
+                                    token_modifiers: vec![],
+                                },
+                                full: Some(SemanticTokensFullOptions::Bool(true)),
+                                range: Some(false),
+                                work_done_progress_options: WorkDoneProgressOptions {
+                                    work_done_progress: None,
+                                },
                             },
+
+                            static_registration_options: StaticRegistrationOptions::default(),
                         },
                     ),
                 ),
+                workspace: Some(WorkspaceServerCapabilities {
+                    workspace_folders: Some(WorkspaceFoldersServerCapabilities {
+                        supported: Some(true),
+                        change_notifications: Some(OneOf::Left(true)),
+                    }),
+                    file_operations: None,
+                }),
                 ..ServerCapabilities::default()
             },
             server_info: None,
@@ -65,52 +92,126 @@ impl LanguageServer for Backend {
         &self,
         params: SemanticTokensParams,
     ) -> Result<Option<SemanticTokensResult>> {
-        debug!("semantic_tokens_full: {:#?}", params);
         let uri = params.text_document.uri.to_string();
-        if let Some(imcomplete_semantic_tokens) = self.semantic_token_map.get(&uri) {
-            let mut last_start = 0;
-            let mut last_line = 0;
-            let semantic_tokens = imcomplete_semantic_tokens.iter().map(|token| {
-                let line = token.start - last_start;
-                let start = if line == 0 {
-                    token.start - last_start
+        let mut pre_line = 0;
+        let mut pre_start = 0;
+        let mut semantic_token = || -> Option<_> {
+            let rope = self.document_map.get(&uri)?;
+            let mut imcomplete_semantic_tokens = self.semantic_token_map.get_mut(&uri)?;
+            imcomplete_semantic_tokens.sort_by(|a, b| a.start.cmp(&b.start));
+
+            let semantic_tokens = imcomplete_semantic_tokens.iter().filter_map(|token| {
+                let line = rope.try_byte_to_line(token.start).ok()? as u32;
+                let first = rope.try_line_to_char(line as usize).ok()? as u32;
+                let start = rope.try_byte_to_char(token.start).ok()? as u32 - first;
+                let delta_line = line - pre_line;
+                let delta_start = if delta_line == 0 {
+                    start - pre_start
                 } else {
-                    token.start
+                    start
                 };
-                last_start = token.start;
-                last_line = line;
-                SemanticToken {
-                    delta_line: line as u32,
-                    delta_start: start as u32,
+                let res = Some(SemanticToken {
+                    delta_line,
+                    delta_start,
                     length: token.length as u32,
                     token_type: token.token_type as u32,
                     token_modifiers_bitset: 0,
-                }
+                });
+                pre_line = line;
+                pre_start = start;
+                res
             });
-            Ok(Some(SemanticTokensResult::Tokens(SemanticTokens {
+            let res = semantic_tokens.collect::<Vec<_>>();
+            debug!("semantic_tokens: {:#?}", res);
+            Some(SemanticTokensResult::Tokens(SemanticTokens {
                 result_id: None,
-                data: semantic_tokens.collect(),
-            })))
-        } else {
-            Ok(None)
-        }
+                data: res,
+            }))
+        };
+        Ok(semantic_token())
     }
-
     async fn did_open(&self, params: DidOpenTextDocumentParams) {
-        debug!("did_open: {:#?}", params);
+        debug!("file opened");
+        self.on_change(TextDocumentItem {
+            uri: params.text_document.uri,
+            text: params.text_document.text,
+            version: params.text_document.version,
+            language_id: "mimium".to_string(),
+        })
+        .await
     }
     async fn did_change(&self, params: DidChangeTextDocumentParams) {
-        debug!("did_change: {:#?}", params);
-        let uri = params.text_document.uri.to_string();
-        if let Some(change) = params.content_changes.into_iter().next() {
-            let src = change.text;
-            let rope = Rope::from_str(&src);
-            self.document_map.insert(uri.clone(), rope);
-            let parse_result = parse(&src, &uri);
-            self.semantic_token_map
-                .insert(uri.clone(), parse_result.semantic_tokens);
-            self.ast_map.insert(uri, parse_result.ast);
+        self.on_change(TextDocumentItem {
+            text: params.content_changes[0].text.clone(),
+            uri: params.text_document.uri,
+            version: params.text_document.version,
+            language_id: "mimium".to_string(),
+        })
+        .await
+    }
+
+    async fn did_save(&self, params: DidSaveTextDocumentParams) {
+        dbg!(&params.text);
+        if let Some(text) = params.text {
+            let item = TextDocumentItem {
+                uri: params.text_document.uri,
+                text: text,
+                version: -1,
+                language_id: "mimium".to_string(),
+            };
+            self.on_change(item).await;
+            _ = self.client.semantic_tokens_refresh().await;
         }
+        debug!("file saved!");
+    }
+    async fn did_close(&self, _: DidCloseTextDocumentParams) {
+        debug!("file closed!");
+    }
+}
+
+impl Backend {
+    async fn on_change(&self, params: TextDocumentItem) {
+        self.client
+            .log_message(MessageType::INFO, "on_change called!")
+            .await;
+        debug!("{}", &params.version);
+        let rope = ropey::Rope::from_str(&params.text);
+        self.document_map
+            .insert(params.uri.to_string(), rope.clone());
+        let ParseResult {
+            ast,
+            errors,
+            semantic_tokens,
+        } = parse(&params.text, &params.uri.as_str());
+        let diagnostics = errors
+            .into_iter()
+            .flat_map(|item| {
+                item.get_labels()
+                    .iter()
+                    .filter_map(|(loc, label)| {
+                        let span = &loc.span;
+                        let start_position = offset_to_position(span.start, &rope)?;
+                        let end_position = offset_to_position(span.end, &rope)?;
+                        let severity = DiagnosticSeverity::ERROR;
+                        Some(Diagnostic::new(
+                            Range::new(start_position, end_position),
+                            Some(severity),
+                            None,
+                            None,
+                            label.clone(),
+                            None,
+                            None,
+                        ))
+                    })
+                    .collect::<Vec<Diagnostic>>()
+            })
+            .collect::<Vec<Diagnostic>>();
+
+        self.client
+            .publish_diagnostics(params.uri.clone(), diagnostics, Some(params.version))
+            .await;
+        self.semantic_token_map
+            .insert(params.uri.to_string(), semantic_tokens);
     }
 }
 
@@ -130,4 +231,17 @@ async fn main() {
     .finish();
 
     Server::new(stdin, stdout, socket).serve(service).await;
+}
+
+fn offset_to_position(offset: usize, rope: &Rope) -> Option<Position> {
+    let line = rope.try_char_to_line(offset).ok()?;
+    let first_char_of_line = rope.try_line_to_char(line).ok()?;
+    let column = offset - first_char_of_line;
+    Some(Position::new(line as u32, column as u32))
+}
+
+fn position_to_offset(position: Position, rope: &Rope) -> Option<usize> {
+    let line_char_offset = rope.try_line_to_char(position.line as usize).ok()?;
+    let slice = rope.slice(0..line_char_offset + position.character as usize);
+    Some(slice.len_bytes())
 }
