@@ -1,13 +1,54 @@
 {
   "version": "0.2.0",
+  // "configurations": [
+  //   {
+  //     "name": "Extension",
+  //     "type": "extensionHost",
+  //     "request": "launch",
+  //     "runtimeExecutable": "${execPath}",
+  //     "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
+  //     "preLaunchTask": "watch"
+  //   }
+  // ]
   "configurations": [
     {
-      "name": "Extension",
+      "type": "extensionHost",
+      "request": "launch",
+      "name": "Launch Client",
+      "runtimeExecutable": "${execPath}",
+      "args": ["--extensionDevelopmentPath=${workspaceRoot}"],
+      "outFiles": ["${workspaceRoot}/client/dist/**/*.js"],
+      "env": {
+        "MIMIUM_SERVER_PATH": "${workspaceRoot}/mimium-language-server/target/debug/mimium-language-server"
+      },
+      "preLaunchTask": "watch"
+    },
+    {
+      "name": "Attach to Server",
+      "type": "lldb",
+      "request": "attach",
+      "pid": "${command:pickProcess}"
+    },
+    {
+      "name": "Language Server E2E Test",
       "type": "extensionHost",
       "request": "launch",
       "runtimeExecutable": "${execPath}",
-      "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
-      "preLaunchTask": "watch"
+      "args": [
+        "--extensionDevelopmentPath=${workspaceRoot}",
+        "--extensionTestsPath=${workspaceRoot}/client/out/test/index",
+        "${workspaceRoot}/client/testFixture"
+      ],
+      "outFiles": ["${workspaceRoot}/client/out/test/**/*.js"]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Client + Server",
+      "configurations": [
+        "Launch Client"
+        // "Attach to Server"
+      ]
     }
   ]
 }

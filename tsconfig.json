@@ -60,5 +60,6 @@
     "skipLibCheck": true /* Skip type checking of declaration files. */,
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
   },
-  "include": ["src/**/*", "src/test/suite/extension.test.ts"]
+  "include": ["client/src/**/*", "client/src/test/suite/extension.test.ts"]
+  
 }

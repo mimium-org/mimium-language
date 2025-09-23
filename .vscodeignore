@@ -6,3 +6,6 @@ node_modules
 esbuild.js
 src/
 out/
+client/**
+target
+Cargo.lock

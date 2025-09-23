@@ -9,7 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm install
+      - uses: pnpm/action-setup@v4
+      - run: pnpm install
       - uses: lannonbr/vsce-action@master
         with:
           args: "publish -p $VSCE_TOKEN --pre-release"

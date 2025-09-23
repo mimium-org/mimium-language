@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - run: npm install
       - run: xvfb-run -a npm test
         if: runner.os == 'Linux'
