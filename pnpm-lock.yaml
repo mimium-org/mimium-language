@@ -14,6 +14,9 @@ importers:
       '@types/mocha':
         specifier: ^8.2.3
         version: 8.2.3
+      '@types/node':
+        specifier: ^24.5.2
+        version: 24.5.2
       '@types/vscode':
         specifier: ^1.104.0
         version: 1.104.0
@@ -2247,7 +2250,7 @@ snapshots:
     dependencies:
       '@types/http-cache-semantics': 4.0.4
       '@types/keyv': 3.1.4
-      '@types/node': 20.19.17
+      '@types/node': 24.5.2
       '@types/responselike': 1.0.3
 
   '@types/eslint-scope@3.7.7':
@@ -2270,7 +2273,7 @@ snapshots:
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 20.19.17
+      '@types/node': 24.5.2
 
   '@types/mocha@10.0.10': {}
 
@@ -2286,13 +2289,13 @@ snapshots:
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 20.19.17
+      '@types/node': 24.5.2
 
   '@types/vscode@1.104.0': {}
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 20.19.17
+      '@types/node': 24.5.2
     optional: true
 
   '@typescript-eslint/parser@8.44.1(eslint@9.36.0)(typescript@4.9.5)':
