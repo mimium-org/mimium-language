@@ -19,7 +19,7 @@
       "args": ["--extensionDevelopmentPath=${workspaceRoot}"],
       "outFiles": ["${workspaceRoot}/client/dist/**/*.js"],
       "env": {
-        "SERVER_PATH": "${workspaceRoot}/target/debug/mimium-language-server"
+        "MIMIUM_SERVER_PATH": "${workspaceRoot}/target/debug/mimium-language-server"
       },
       "preLaunchTask": "watch"
     },

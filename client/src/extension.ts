@@ -11,7 +11,9 @@ import {
 } from "vscode-languageclient/node";
 
 import { downloadBinary, checkIfNewerVersionAvailable } from "./installer";
-import { runMimium } from "./mimium_env";
+import { getMimiumPath, runMimium } from "./mimium_env";
+import * as path from "path";
+
 //globally shared terminal instance for mimium
 let _terminal: vscode.Terminal;
 let client: LanguageClient;
@@ -31,7 +33,10 @@ export function activate(context: vscode.ExtensionContext): void {
     "Mimium Language Server trace"
   );
 
-  const command = process.env.SERVER_PATH || "mimium-language-server";
+  const command =
+    process.env.MIMIUM_SERVER_PATH ||
+    path.join(getMimiumPath(), "mimium-language-server") ||
+    "mimium-language-server";
   const run: Executable = {
     command,
     options: {
@@ -52,7 +57,7 @@ export function activate(context: vscode.ExtensionContext): void {
       // Notify the server about file changes to '.clientrc files contained in the workspace
       fileEvents: vscode.workspace.createFileSystemWatcher("**/.clientrc"),
     },
-    
+
     traceOutputChannel,
   };
   // Create the language client and start the client.
