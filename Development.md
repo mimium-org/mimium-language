@@ -25,6 +25,8 @@ To test this extension, install `vscode-test` command.
 
 https://code.visualstudio.com/api/working-with-extensions/testing-extension
 
+The actual test code is in [client/src/test/suite/extension.test.ts](client/src/test/suite/extension.test.ts).
+
 ## Deployment
 
 Pushed commit with tag `vx.x.x` to master branch will automatically triggers deployment. Tag like `vx.x.x-alphax` triggers pre-release deployment.
