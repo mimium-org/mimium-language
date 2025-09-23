@@ -48,11 +48,11 @@ const getDefaultDownloadPath = (): string => {
 const getDownloadfileName = (): string => {
   switch (platform()) {
     case "win32":
-      return `mimium-cli-x86_64-pc-windows-msvc.zip`;
+      return `mimium-bintools-x86_64-pc-windows-msvc.zip`;
     case "darwin":
-      return `mimium-cli-aarch64-apple-darwin.zip`;
+      return `mimium-bintools-aarch64-apple-darwin.zip`;
     case "linux":
-      return `mimium-cli-x86_64-unknown-linux-gnu.zip`;
+      return `mimium-bintools-x86_64-unknown-linux-gnu.zip`;
     default:
       vscode.window.showErrorMessage(
         `mimium: binary download currently only \
