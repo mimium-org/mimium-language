@@ -1,6 +1,10 @@
+use std::sync::Arc;
+
 use dashmap::DashMap;
 use log::debug;
-use mimium_lang::interner::ExprNodeId;
+use mimium_lang::compiler::mirgen;
+use mimium_lang::interner::{ExprNodeId, Symbol, TypeNodeId};
+use mimium_lang::utils::error::ReportableError;
 use mimium_language_server::semantic_token::{
     ImCompleteSemanticToken, LEGEND_TYPE, ParseResult, parse,
 };
@@ -13,9 +17,32 @@ use tower_lsp::lsp_types::*;
 use tower_lsp::{Client, LanguageServer, LspService, Server};
 type SrcUri = String;
 
+struct MimiumCtx {
+    builtin_types: Vec<(Symbol, TypeNodeId)>,
+}
+impl MimiumCtx {
+    fn new() -> Self {
+        let mut execctx = mimium_cli::get_default_context(None, true, Default::default());
+        execctx.prepare_compiler();
+        let builtin_types = execctx.get_compiler().unwrap().get_ext_typeinfos();
+        Self { builtin_types }
+    }
+}
+impl std::fmt::Display for MimiumCtx {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "mimium context")
+    }
+}
+impl std::fmt::Debug for MimiumCtx {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "mimium context")
+    }
+}
+
 #[derive(Debug)]
 struct Backend {
     client: Client,
+    compiler_ctx: MimiumCtx,
     ast_map: DashMap<SrcUri, ExprNodeId>,
     // semantic_map: DashMap<SrcUri, Semantic>,
     document_map: DashMap<SrcUri, Rope>,
@@ -122,7 +149,7 @@ impl LanguageServer for Backend {
                 res
             });
             let res = semantic_tokens.collect::<Vec<_>>();
-            debug!("semantic_tokens: {:#?}", res);
+            // debug!("semantic_tokens: {:#?}", res);
             Some(SemanticTokensResult::Tokens(SemanticTokens {
                 result_id: None,
                 data: res,
@@ -168,50 +195,88 @@ impl LanguageServer for Backend {
         debug!("file closed!");
     }
 }
+fn diagnostic_from_error(
+    error: Box<dyn ReportableError>,
+    url: Url,
+    rope: &Rope,
+) -> Option<Diagnostic> {
+    let severity = DiagnosticSeverity::ERROR;
 
+    if let Some(((mainloc, mainmsg), rest)) = error.get_labels().split_first() {
+        let span = &mainloc.span;
+        let start_position = offset_to_position(span.start, &rope)?;
+        let end_position = offset_to_position(span.end, &rope)?;
+        let related_informations = rest
+            .iter()
+            .filter_map(|(loc, msg)| {
+                let span = &loc.span;
+                let start_position = offset_to_position(span.start, &rope)?;
+                let end_position = offset_to_position(span.end, &rope)?;
+                let uri = if loc.path.to_string() != "" {
+                    Url::from_file_path(std::path::PathBuf::from(loc.path.to_string()))
+                        .unwrap_or(url.clone())
+                } else {
+                    url.clone()
+                };
+                Some(DiagnosticRelatedInformation {
+                    location: Location {
+                        uri,
+                        range: Range::new(start_position, end_position),
+                    },
+                    message: msg.clone(),
+                })
+            })
+            .collect();
+        Some(Diagnostic::new(
+            Range::new(start_position, end_position),
+            Some(severity),
+            None,
+            None,
+            mainmsg.clone(),
+            Some(related_informations),
+            None,
+        ))
+    } else {
+        None
+    }
+}
 impl Backend {
-    async fn on_change(&self, params: TextDocumentItem) {
-        self.client
-            .log_message(MessageType::INFO, "on_change called!")
-            .await;
-        debug!("{}", &params.version);
-        let rope = ropey::Rope::from_str(&params.text);
-        self.document_map
-            .insert(params.uri.to_string(), rope.clone());
+    fn compile(&self, src: &str, url: Url) -> Vec<Diagnostic> {
+        let rope = ropey::Rope::from_str(&src);
+
         let ParseResult {
             ast,
             errors,
             semantic_tokens,
-        } = parse(&params.text, &params.uri.as_str());
-        let diagnostics = errors
+        } = parse(src, url.as_str());
+        self.semantic_token_map
+            .insert(url.to_string(), semantic_tokens);
+        let errs = {
+            let res = mirgen::compile(ast, &self.compiler_ctx.builtin_types, &[], None);
+            if res.is_err() {
+                errors
+                    .into_iter()
+                    .chain(res.err().unwrap().into_iter())
+                    .collect::<Vec<_>>()
+            } else {
+                errors
+            }
+        };
+        let diagnostics = errs
             .into_iter()
-            .flat_map(|item| {
-                item.get_labels()
-                    .iter()
-                    .filter_map(|(loc, label)| {
-                        let span = &loc.span;
-                        let start_position = offset_to_position(span.start, &rope)?;
-                        let end_position = offset_to_position(span.end, &rope)?;
-                        let severity = DiagnosticSeverity::ERROR;
-                        Some(Diagnostic::new(
-                            Range::new(start_position, end_position),
-                            Some(severity),
-                            None,
-                            None,
-                            label.clone(),
-                            None,
-                            None,
-                        ))
-                    })
-                    .collect::<Vec<Diagnostic>>()
-            })
+            .flat_map(|item| diagnostic_from_error(item, url.clone(), &rope))
             .collect::<Vec<Diagnostic>>();
-
+        diagnostics
+    }
+    async fn on_change(&self, params: TextDocumentItem) {
+        debug!("{}", &params.version);
+        let rope = ropey::Rope::from_str(&params.text);
+        self.document_map
+            .insert(params.uri.to_string(), rope.clone());
+        let diagnostics = self.compile(&params.text, params.uri.clone());
         self.client
             .publish_diagnostics(params.uri.clone(), diagnostics, Some(params.version))
             .await;
-        self.semantic_token_map
-            .insert(params.uri.to_string(), semantic_tokens);
     }
 }
 
@@ -224,6 +289,7 @@ async fn main() {
 
     let (service, socket) = LspService::build(|client| Backend {
         client,
+        compiler_ctx: MimiumCtx::new(),
         ast_map: DashMap::new(),
         document_map: DashMap::new(),
         semantic_token_map: DashMap::new(),
