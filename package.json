@@ -32,8 +32,7 @@
     "package": "vsce package --no-dependencies",
     "compile-tests": "tsc -p . --outDir out",
     "pretest": "npm run compile-tests",
-    "test": "vscode-test",
-    "vscode:prepublish": "npm run package"
+    "test": "vscode-test"
   },
   "contributes": {
     "languages": [

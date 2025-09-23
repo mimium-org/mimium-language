@@ -11,8 +11,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - run: pnpm install
+      - run: npm run compile
       - uses: lannonbr/vsce-action@master
         with:
-          args: "publish -p $VSCE_TOKEN --pre-release"
+          args: "publish -p $VSCE_TOKEN --pre-release --no-dependencies"
         env:
           VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
