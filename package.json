@@ -29,7 +29,11 @@
     "watch": "npm-run-all -p watch:*",
     "watch:esbuild": "node esbuild.js --watch",
     "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "package": "vsce package --no-dependencies"
+    "package": "vsce package --no-dependencies",
+    "compile-tests": "tsc -p . --outDir out",
+    "pretest": "npm run compile-tests",
+    "test": "vscode-test",
+    "vscode:prepublish": "npm run package"
   },
   "contributes": {
     "languages": [
