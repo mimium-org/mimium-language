@@ -1,6 +1,6 @@
 {
   "name": "mimium-language",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "",
   "main": "./dist/extension.js",
   "publisher": "mimium-org",
@@ -19,9 +19,6 @@
     "color": "#333333",
     "theme": "dark"
   },
-  "activationEvents": [
-    "onLanguage:mimium"
-  ],
   "scripts": {
     "postinstall": "cd client && pnpm i",
     "compile": "npm run check-types && node esbuild.js --production",

@@ -3,7 +3,7 @@
 	"displayName": "mimium",
 	"description": "language support for mimium, a sound programming language",
 	"publisher": "mimium-org",
-	"version": "2.3.2",
+	"version": "2.3.3",
 	"scripts": {
 		"compile": "npm run check-types && node esbuild.js",
 		"lint": "eslint . --ext .ts,.tsx",
