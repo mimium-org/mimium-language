@@ -2,6 +2,10 @@
 
 All notable changes to the "mimium-language" extension will be documented in this file.
 
+## 2.3.4
+
+- Fixed wrongly deleted download binary command.
+
 ## 2.3.0
 
 - Add language-server support. Better syntax highlighting and error diagnostic feature is added.

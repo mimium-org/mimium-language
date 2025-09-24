@@ -1,6 +1,6 @@
 {
   "name": "mimium-language",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "description": "",
   "main": "./dist/extension.js",
   "publisher": "mimium-org",
