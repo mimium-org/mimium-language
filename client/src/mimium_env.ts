@@ -61,7 +61,7 @@ const makeTmpfile = (editor: vscode.TextEditor, mmmpath: string): string => {
   fs.writeFileSync(p, editor.document.getText());
   return p;
 };
-export const runMimium = (terminal: vscode.Terminal): void => {
+export const runMimium = (terminal: vscode.Terminal|undefined): void => {
   const mmmpath = getMimiumPath();
   const editor = vscode.window.activeTextEditor;
   if (editor === undefined) return;

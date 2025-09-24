@@ -15,24 +15,11 @@ import { getMimiumPath, runMimium } from "./mimium_env";
 import * as path from "path";
 
 //globally shared terminal instance for mimium
-let _terminal: vscode.Terminal;
+let terminal: vscode.Terminal|undefined;
 let client: LanguageClient;
+let traceOutputChannel: vscode.OutputChannel;
 
-/**
- * called when extension has been terminated.
- */
-export function dispose() {
-  _terminal.dispose();
-}
-/**
- * main entry point from vscode.
- * @param {string} context - //vscode context
- */
-export function activate(context: vscode.ExtensionContext): void {
-  const traceOutputChannel = vscode.window.createOutputChannel(
-    "Mimium Language Server trace"
-  );
-
+function getServerOption() {
   const command =
     process.env.MIMIUM_SERVER_PATH ||
     path.join(getMimiumPath(), "mimium-language-server") ||
@@ -50,6 +37,9 @@ export function activate(context: vscode.ExtensionContext): void {
     run,
     debug: run,
   };
+  return serverOptions;
+}
+function getClientOption() {
   let clientOptions: LanguageClientOptions = {
     // Register the server for plain text documents
     documentSelector: [{ scheme: "file", language: "mimium" }],
@@ -60,6 +50,12 @@ export function activate(context: vscode.ExtensionContext): void {
 
     traceOutputChannel,
   };
+  return clientOptions;
+}
+function startLanguageClient(
+  serverOptions: ServerOptions,
+  clientOptions: LanguageClientOptions
+) {
   // Create the language client and start the client.
   client = new LanguageClient(
     "mimium-language-server",
@@ -69,16 +65,41 @@ export function activate(context: vscode.ExtensionContext): void {
   );
 
   client.start();
+}
+export function restartLanguageClient() {
+  if (client.isRunning()) {
+    client.stop();
+  }
+  startLanguageClient(getServerOption(), getClientOption());
+}
+
+/**
+ * called when extension has been terminated.
+ */
+export function dispose() {
+  if (terminal){
+    terminal.dispose();
+  }
+}
+/**
+ * main entry point from vscode.
+ * @param {string} context - //vscode context
+ */
+export function activate(context: vscode.ExtensionContext): void {
+  traceOutputChannel = vscode.window.createOutputChannel(
+    "Mimium Language Server trace"
+  );
+  startLanguageClient(getServerOption(), getClientOption());
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "extension.mimiumdownloadbinary",
-      downloadBinary
+      "extension.mimium.restartServer",
+      restartLanguageClient
     )
   );
   context.subscriptions.push(
     vscode.commands.registerCommand("extension.mimiumrun", () => {
-      runMimium(_terminal);
+      runMimium(terminal);
     })
   );
   checkIfNewerVersionAvailable();

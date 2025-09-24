@@ -86,6 +86,10 @@
         "command": "extension.mimiumdownloadbinary",
         "title": "mimium: Download the latest binary"
       },
+          {
+        "command": "extension.mimium.restartServer",
+        "title": "mimium: Restart Language Server"
+      },
       {
         "command": "extension.mimiumrun",
         "title": "mimium: Run opening file",
