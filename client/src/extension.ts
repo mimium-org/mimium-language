@@ -15,7 +15,7 @@ import { getMimiumPath, runMimium } from "./mimium_env";
 import * as path from "path";
 
 //globally shared terminal instance for mimium
-let terminal: vscode.Terminal|undefined;
+let terminal: vscode.Terminal | undefined;
 let client: LanguageClient;
 let traceOutputChannel: vscode.OutputChannel;
 
@@ -77,7 +77,7 @@ export function restartLanguageClient() {
  * called when extension has been terminated.
  */
 export function dispose() {
-  if (terminal){
+  if (terminal) {
     terminal.dispose();
   }
 }
@@ -97,6 +97,13 @@ export function activate(context: vscode.ExtensionContext): void {
       restartLanguageClient
     )
   );
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "extension.mimiumdownloadbinary",
+      downloadBinary
+    )
+  );
+
   context.subscriptions.push(
     vscode.commands.registerCommand("extension.mimiumrun", () => {
       runMimium(terminal);
