@@ -125,8 +125,14 @@
 		{
 			"include": "#core_vars"
 		},
-				{
+		{
 			"include": "#stage"
+		},
+		{
+			"include": "#macro"
+		},
+		{
+			"include": "#main"
 		},
 		{
 			"include": "#core_marker"
@@ -286,6 +292,16 @@
 			"comment": "Stage Keyword",
 			"match": "\\b#stage\\b",
 			"name": "keyword.other.stage.mimium"
+		},
+		"macro": {
+			"comment": "Macro Keyword",
+			"match": "\\bmacro\\b",
+			"name": "variable.language.mimium"
+		},
+		"main": {
+			"comment": "Main Keyword",
+			"match": "\\bmain\\b",
+			"name": "variable.language.mimium"
 		},
 		"string_literal": {
 			"begin": "b?\"",
