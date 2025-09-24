@@ -2,6 +2,10 @@
 
 All notable changes to the "mimium-language" extension will be documented in this file.
 
+## 2.4.0
+
+- Added `#stage(macro/main)` syntax highlighting
+
 ## 2.3.4
 
 - Fixed wrongly deleted download binary command.
