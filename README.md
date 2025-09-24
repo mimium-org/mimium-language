@@ -10,7 +10,9 @@ You can play opening mimium file on the editor, by the editor action button(righ
 
 ## Screenshot
 
-![Screenshot](./screenshot.png)
+![Screenshot of VSCode with a dark theme. The source code of mimium file is opened and mouse cursor is hovered on the mimium icon right next to the editor tabs.](./screenshot.png)
+
+![Screenshot of VSCode with a light theme.The source code of mimium file is opened and 2 errors are reported on the editor.](./screenshot2.png)
 
 ## Development
 
