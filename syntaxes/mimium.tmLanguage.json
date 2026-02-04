@@ -90,6 +90,9 @@
 			"name": "keyword.other.mimium"
 		},
 		{
+			"include": "#module"
+		},
+		{
 			"comment": "Miscellaneous operator",
 			"match": "(:|\\|>)",
 			"name": "keyword.operator.misc.mimium"
@@ -297,6 +300,11 @@
 			"comment": "Macro Keyword",
 			"match": "\\bmacro\\b",
 			"name": "variable.language.mimium"
+		},
+		"module": {
+			"comment": "Module Keyword",
+			"match": "\\b(mod|use|pub|as)\\b",
+			"name": "keyword.other.module.mimium"
 		},
 		"main": {
 			"comment": "Main Keyword",
