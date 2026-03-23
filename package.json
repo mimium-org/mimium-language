@@ -70,6 +70,15 @@
           "type": "boolean",
           "default": true,
           "description": "Check if the latest version of mimium is available on startup"
+        },
+        "mimium.releaseChannel": {
+          "type": "string",
+          "enum": [
+            "stable",
+            "alpha"
+          ],
+          "default": "stable",
+          "markdownDescription": "Select which mimium-rs release channel to download. `stable` only downloads non-prerelease versions, while `alpha` allows the latest alpha builds."
         }
       }
     },
