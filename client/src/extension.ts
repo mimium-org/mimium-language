@@ -54,14 +54,14 @@ function getClientOption() {
 }
 function startLanguageClient(
   serverOptions: ServerOptions,
-  clientOptions: LanguageClientOptions
+  clientOptions: LanguageClientOptions,
 ) {
   // Create the language client and start the client.
   client = new LanguageClient(
     "mimium-language-server",
     "mimium language server",
     serverOptions,
-    clientOptions
+    clientOptions,
   );
 
   client.start();
@@ -87,27 +87,27 @@ export function dispose() {
  */
 export function activate(context: vscode.ExtensionContext): void {
   traceOutputChannel = vscode.window.createOutputChannel(
-    "Mimium Language Server trace"
+    "Mimium Language Server trace",
   );
   startLanguageClient(getServerOption(), getClientOption());
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
       "extension.mimium.restartServer",
-      restartLanguageClient
-    )
+      restartLanguageClient,
+    ),
   );
   context.subscriptions.push(
     vscode.commands.registerCommand(
       "extension.mimiumdownloadbinary",
-      downloadBinary
-    )
+      downloadBinary,
+    ),
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand("extension.mimiumrun", () => {
       runMimium(terminal);
-    })
+    }),
   );
   checkIfNewerVersionAvailable();
 }
